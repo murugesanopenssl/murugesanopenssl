@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,18 +18,24 @@
 <body>
 <h1>Spending Tracker (Firebase)</h1>
 <p>Default view shows <strong>Nov-2025</strong> if available. Use Add Entry to add data.</p>
+
 <div class="controls">
   <label for="monthSelect">View:</label>
   <select id="monthSelect"></select>
+
   <label for="dateInput">Date:</label>
   <input type="date" id="dateInput" />
+
   <input type="text" id="itemInput" placeholder="Item (e.g., Snacks)" />
   <input type="number" id="amountInput" placeholder="Amount" step="0.01" />
+
   <button id="addBtn">Add Entry</button>
   <button id="saveDefaultBtn">Save default array to DB</button>
 </div>
+
 <div id="message" aria-live="polite"></div>
 <div id="tableContainer"></div>
+
 <script type="module">
                         function formatDate(dateStr)
                         {
@@ -40,8 +47,10 @@
                                 const year = date.getFullYear();
                                 return `${weekday} ${day}-${month}-${year}`;
                         }
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getDatabase, ref, set, get, child, push } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
 // Firebase config (from user)
 const firebaseConfig = {
   apiKey: "AIzaSyDSNanmji7WVBtQHlPO-J_E5RQu9Qlq4Qw",
@@ -53,15 +62,18 @@ const firebaseConfig = {
   appId: "1:307675598593:web:4af163460ce2c3bc719500",
   measurementId: "G-0MFK92PQMP"
 };
+
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const rootRef = ref(db, "spendingData");
+
 // ----- Hardcoded fallback array (base version) -----
 			const baseRaw = {
 Nov: [
 [ formatDate("03-Nov-2025"),        "Snacks",  30.00,       "Petrol", 210.00,         "",   0.00,                "",   0.00,           "",      0.00,            "",  0.00,        "",   0.00 ],
 [ formatDate("02-Nov-2025"),          "Rice", 700.00,   "BananaLeaf",  10.00,      "Veg",  70.00,                "",   0.00,           "",      0.00,            "",  0.00,        "",   0.00 ],
 [ formatDate("01-Nov-2025"),         "ToBng",  69.00,          "Veg", 107.00,     "Rice", 360.00,           "Lunch",  55.00,     "Snacks",     30.00,            "",  0.00,        "",   0.00 ]
+
 ],
 Oct: [
 // Chandapura to attibele and left 2 wheeler at Chandapura
@@ -114,6 +126,7 @@ Sep: [
 [ formatDate("13-Sep-2025"),      "BESCOM", 256.00,          "",    .00,           "",     "",            "",       "",           "",     "",           "",       "",          "",    "" ]
 ]
 			};
+
 // helper: convert "03-Nov-2025" -> "Nov-2025"
 function monthKeyFromDateString(dstr){
   try{
@@ -129,6 +142,7 @@ function monthKeyFromDateString(dstr){
     return dstr;
   }
 }
+
 // convert baseRaw to month-year keyed object
 function normalizeBase(raw){
   const out = {};
@@ -143,7 +157,9 @@ function normalizeBase(raw){
   }
   return out;
 }
+
 const baseData = normalizeBase(baseRaw);
+
 // UI elements
 const monthSelect = document.getElementById('monthSelect');
 const dateInput = document.getElementById('dateInput');
@@ -153,12 +169,15 @@ const tableContainer = document.getElementById('tableContainer');
 const message = document.getElementById('message');
 const addBtn = document.getElementById('addBtn');
 const saveDefaultBtn = document.getElementById('saveDefaultBtn');
+
 // default date to today
 dateInput.valueAsDate = new Date();
+
 // utility: format monthKey to label
 function labelOf(mk){
   return mk;
 }
+
 // load DB, if empty set baseData then display default month
 async function initAndLoad(){
   message.textContent = "Loading data from Firebase...";
@@ -179,6 +198,7 @@ async function initAndLoad(){
   monthSelect.value = defaultMk || "all";
   renderForSelected(data);
 }
+
 // populate month dropdown (All + months sorted newest first)
 function populateMonthSelect(monthKeys){
   monthSelect.innerHTML = "";
@@ -196,6 +216,7 @@ function populateMonthSelect(monthKeys){
     monthSelect.appendChild(opt);
   }
 }
+
 // get current monthKey like "Nov-2025"
 function currentMonthKey(){
   const d = new Date();
@@ -203,6 +224,7 @@ function currentMonthKey(){
   const yr = d.getFullYear();
   return mo + "-" + yr;
 }
+
 // render table for selected month or all
 async function renderForSelected(dataFromDB){
   const sel = monthSelect.value;
@@ -240,6 +262,7 @@ async function loadData() {
     displayData(baseData);
   }
 }
+
 // add entry: update DB structure properly
 async function addEntry(){
   const date = dateInput.value;
@@ -281,6 +304,7 @@ async function addEntry(){
   message.textContent = "Saved entry.";
   loadData();
 }
+
 // button handlers
 addBtn.addEventListener('click', addEntry);
 saveDefaultBtn.addEventListener('click', async ()=>{
@@ -291,12 +315,14 @@ saveDefaultBtn.addEventListener('click', async ()=>{
   populateMonthSelect(Object.keys(dataAll));
   renderForSelected(dataAll);
 });
+
 // when user changes month selection
 monthSelect.addEventListener('change', async ()=>{
   const snap = await get(child(ref(db), '/spendingData'));
   const dataAll = snap.exists() ? snap.val() : baseData;
   renderForSelected(dataAll);
 });
+
 // initialize
 initAndLoad();
 </script>
