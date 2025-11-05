@@ -674,7 +674,8 @@ async function renderForSelected(dataFromDB){
 }
 async function loadData() {
   const dbRef = ref(db);
-  const snapshot = await get(child(dbRef, "spendingData"));
+  const snapshot = await get(child(ref(db), "spendingData"));
+  console.log("Data loaded from Firebase path: spendingData");
   if (snapshot.exists()) {
     displayData(snapshot.val());
   } else {
