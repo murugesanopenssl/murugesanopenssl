@@ -695,6 +695,7 @@ async function renderForSelected(dataFromDB){
 async function loadData() {
   const dbRef = ref(db);
   const snapshot = await get(child(dbRef, "spendingData"));
+  console.log("DEBUG: Firebase snapshot", snapshot.exists(), snapshot.val());
   if (snapshot.exists()) {
     displayData(snapshot.val());
   } else {
