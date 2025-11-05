@@ -566,30 +566,48 @@ Sep: [
 
 // helper: convert "03-Nov-2025" -> "Nov-2025"
 function monthKeyFromDateString(dstr){
-  try{
-    const parts = dstr.split("-");
-    if(parts.length >= 3){
-      return parts[1] + "-" + parts[2];
-    }
-    const d = new Date(dstr);
-    const m = d.toLocaleString('en-US',{month:'short'});
-    const y = d.getFullYear();
-    return m + "-" + y;
-  }catch(e){
-    return dstr;
+  if(/^\d{4}-\d{2}-\d{2}$/.test(dstr)){
+    const [y,m] = dstr.split("-");
+    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    return months[parseInt(m,10)-1] + "-" + y;
   }
+  const parts = dstr.split("-");
+  if(parts.length >= 3){
+    return parts[1] + "-" + parts[2];
+  }
+  const d = new Date(dstr);
+  const m = d.toLocaleString('en-US',{month:'short'});
+  const y = d.getFullYear();
+  return m + "-" + y;
 }
 
 // convert baseRaw to month-year keyed object
+function parseStoredDate(d){
+  if(/^\d{4}-\d{2}-\d{2}$/.test(d)) return d;
+  const m = d.match(/(\d{2})-(\w{3})-(\d{4})$/);
+  if(m){
+    const dd = m[1];
+    const mon = m[2];
+    const months = {Jan:'01',Feb:'02',Mar:'03',Apr:'04',May:'05',Jun:'06',Jul:'07',Aug:'08',Sep:'09',Oct:'10',Nov:'11',Dec:'12'};
+    return `${m[3]}-${months[mon]}-${dd}`;
+  }
+  const dt = new Date(d);
+  const yyyy = dt.getFullYear();
+  const mm = String(dt.getMonth()+1).padStart(2,'0');
+  const dd = String(dt.getDate()).padStart(2,'0');
+  return `${yyyy}-${mm}-${dd}`;
+}
+
 function normalizeBase(raw){
   const out = {};
   for(const k in raw){
     const rows = raw[k];
     for(const row of rows){
-      const date = row[0];
+      const date = parseStoredDate(row[0]);
       const mk = monthKeyFromDateString(date);
       if(!out[mk]) out[mk] = [];
-      out[mk].push(row.slice()); // copy
+      const r = row.slice(); r[0] = date;
+      out[mk].push(r);
     }
   }
   return out;
@@ -677,14 +695,15 @@ async function renderForSelected(dataFromDB){
   for(const mk of months){
     if(!data[mk]) continue;
     data[mk].forEach(row=>{
-      const date = row[0];
-      for(let i=1;i<row.length;i+=2){
-        const item = row[i];
-        const amt = row[i+1];
-        if(item && (amt !== undefined && amt !== null)){
-          html += `<tr><td>${date}</td><td>${item}</td><td>${amt}</td></tr>`;
-        }
-      }
+			const storedDate = row[0];
+			const displayDate = formatDate(storedDate);
+			for(let i=1;i<row.length;i+=2){
+			  const item = row[i];
+			  const amt = row[i+1];
+			  if(item && (amt !== undefined && amt !== null)){
+				html += `<tr><td>${displayDate}</td><td>${item}</td><td>${amt}</td></tr>`;
+			  }
+			}
     });
   }
   html += "</tbody></table>";
