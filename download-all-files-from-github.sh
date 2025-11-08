@@ -4,4 +4,4 @@ export PATH="/cygdrive/c/PROGRA~2/Microsoft Visual Studio/2019/BuildTools/Common
 git add .
 git commit -m "Updated title and content for spending.html"
 git push origin main
-/usr/bin/ grep -E "<TITLE"  spending.html
+/usr/bin/grep -E "<TITLE"  spending.html
