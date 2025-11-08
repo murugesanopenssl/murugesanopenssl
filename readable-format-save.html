@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Portal</title>
+   <!--
+   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+   -->
+<style>
+.triangle {
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;    /* Left side of the triangle */
+            border-right: 25px solid transparent;   /* Right side of the triangle */
+            border-bottom: 50px solid #0071bb;     /* Bottom side of the triangle */
+            position: relative;                     /* Allows positioning of text inside */
+        }
+
+        /* Exclamation mark inside the triangle */
+        .triangle-text {
+            position: absolute;
+            top: 50%;     /* Adjusts vertical positioning */
+            left: 50%;    /* Centers the text horizontally */
+            transform: translateX(-50%); /* Adjusts to truly center the text */
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+        }
+        .circle {
+            width: 50px;
+            height: 50px;
+            background-color: #0071bb;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        /* Header */
+        header {
+            background-color: #0071bb;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        /* Menu bar */
+        nav {
+            background-color: #f1f1f1;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav a {
+            margin: 0 20px;
+            text-decoration: none;
+            color: #0071bb;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #004f7c;
+        }
+
+        /* Icon and links */
+        .icon-menu {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            background-color: #f1f1f1;
+        }
+
+        .icon-menu div {
+            text-align: center;
+        }
+
+        .icon-menu i {
+            font-size: 40px;
+            color: #0071bb;
+        }
+
+        .icon-menu div a {
+            display: block;
+            margin-top: 10px;
+            color: #0071bb;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        /* Table */
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #0071bb;
+            color: white;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        td a {
+            color: #0071bb;
+            text-decoration: none;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Finance Portal</h1>
+    </header>
+
+    <!-- Menu Bar -->
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Products & Services</a>
+        <a href="#">How Do I (Help)</a>
+        <a href="#">Manage Debit Card</a>
+        <a href="#">E-Mandate</a>
+        <a href="#">Contact Us</a>
+    </nav>
+
+    <!-- Icon Menu -->
+    <div class="icon-menu">
+        <div>
+            <i class="material-icons">    <div class="circle">?</div></i>
+            <a href="#">FinanceHelp</a>
+        </div>
+        <div>
+            <i class="material-icons"><div class="circle">i</div></i>
+            <a href="#">About FinanceSSL</a>
+        </div>
+        <div>
+            <i class="material-icons"><div class="triangle">
+        <div class="triangle-text">!</div>
+    </div></i>
+            <a href="spending-forward-fixed.html">PreventWastage</a>
+        </div>
+        <div>
+            <i class="material-icons">compare_arrows</i>
+            <a href="#">CompareBankFD</a>
+        </div>
+    </div>
+
+    <!-- Spending Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Example row -->
+            <tr>
+                <td>Rent</td>
+                <td>$1200</td>
+                <td><a href="#">View Details</a></td>
+            </tr>
+            <tr>
+                <td>Utilities</td>
+                <td>$250</td>
+                <td><a href="#">View Details</a></td>
+            </tr>
+            <tr>
+                <td>Food</td>
+                <td>$400</td>
+                <td><a href="#">View Details</a></td>
+            </tr>
+            <tr>
+                <td>Entertainment</td>
+                <td>$150</td>
+                <td><a href="#">View Details</a></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
