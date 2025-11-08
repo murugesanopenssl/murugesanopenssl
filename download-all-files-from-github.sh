@@ -6,5 +6,7 @@ then
 	git add .
 	git commit -m "Updated title and content for spending.html"
 	git push origin main
+else
+	echo "No changes detected. Git push skipped."
 fi
 /usr/bin/grep -E "<TITLE"  spending.html
