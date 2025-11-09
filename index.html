@@ -293,7 +293,16 @@ function toggleTable() {
             <i class="material-icons"><div class="triangle">
         <div class="triangle-text">!</div>
     </div></i>
-            <a class="link-style" onclick="toggleTable()" id='PreventWastagehref' style='color:blue'>PreventWastage</a>
+	<SCRIPT type='text/javascript'>
+		if( window.location.href.includes('spending.html') )
+		{
+			document.write("<a class='link-style' onclick='toggleTable()' id='PreventWastagehref' style='color:blue'>PreventWastage</a>");
+		}
+		else
+		{
+			document.write("<a class='link-style' href='/ExplorerPatcher-Exception-Windows-11-Home-Single-Language/spending.html' id='PreventWastagehref' style='color:blue'>PreventWastage</a>");
+		}
+	</SCRIPT>
         </div>
         <div>
             <i class="material-icons"><div class="rectangle"><div class="arrow-top-left"></div><div class="arrow-bottom-right"></div></div></i>
@@ -328,7 +337,7 @@ function toggleTable() {
                 <TD valign='top' align='right'><a href="#">View Details</a></TD>
             </TR>
             <TR>
-                <TD valign='top' align='right'>Entertainment</TD>
+                <TD valign='top' align='right'>Saved Amount</TD>
                 <TD valign='top' align='right'>150.00 &#8377;</TD>
                 <TD valign='top' align='right'><a href="#">View Details</a></TD>
             </TR>
