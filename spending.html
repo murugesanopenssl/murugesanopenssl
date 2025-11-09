@@ -221,8 +221,19 @@
 
     <!-- Menu Bar -->
     <nav>
-		<a href='/ExplorerPatcher-Exception-Windows-11-Home-Single-Language/index.html' class="link-style" id='Homehref' style='color:blue'>Home</a>
-		<script type='text/javascript'>
+		<SCRIPT type='text/javascript'>
+            if( window.location.href.includes('spending.html') )
+            {
+                    document.write("<a class='link-style' onclick='toggleTable()' id='PreventWastagehref' style='color:blue'>PreventWastage</a>");
+            }
+            else
+            {
+                    document.write("<a class='link-style' href='/ExplorerPatcher-Exception-Windows-11-Home-Single-Language/spending.html' id='PreventWastagehref' style='color:blue'>PreventWastage</a>");
+            }
+            if( window.location.href.includes('index.html') )
+            {
+                    document.write("<a class='link-style' href='/ExplorerPatcher-Exception-Windows-11-Home-Single-Language/index.html' id='Homehref' style='color:blue'>Home</a>");
+            }
 		function showHomeTable()
 		{
 			const homeTable = document.getElementById('HomeTable');
