@@ -306,7 +306,7 @@ function toggleTable() {
         <thead>
             <TR>
                 <TH valign='top' align='right'>Category</TH>
-                <TH valign='top' align='right'>Amount per month</TH>
+                <TH valign='top' align='right'>Amount</TH>
                 <TH valign='top' align='right'>Details</TH>
             </TR>
         </thead>
@@ -314,22 +314,22 @@ function toggleTable() {
             <!-- Example row -->
             <TR>
                 <TD valign='top' align='right'>Rent</TD>
-                <TD valign='top' align='right'>12000.00 &#8377;</TD>
+                <TD valign='top' align='right'>$1200</TD>
                 <TD valign='top' align='right'><a href="#">View Details</a></TD>
             </TR>
             <TR>
-                <TD valign='top' align='right'>Petrol</TD>
-                <TD valign='top' align='right'>920.00 &#8377;</TD>
+                <TD valign='top' align='right'>Utilities</TD>
+                <TD valign='top' align='right'>$250</TD>
                 <TD valign='top' align='right'><a href="#">View Details</a></TD>
             </TR>
             <TR>
                 <TD valign='top' align='right'>Food</TD>
-                <TD valign='top' align='right'>400.00 &#8377;</TD>
+                <TD valign='top' align='right'>$400</TD>
                 <TD valign='top' align='right'><a href="#">View Details</a></TD>
             </TR>
             <TR>
                 <TD valign='top' align='right'>Entertainment</TD>
-                <TD valign='top' align='right'>150.00 &#8377;</TD>
+                <TD valign='top' align='right'>$150</TD>
                 <TD valign='top' align='right'><a href="#">View Details</a></TD>
             </TR>
         </tbody>
@@ -1592,19 +1592,35 @@ function monthKeyFromDateString(dstr){
     return dstr;
   }
 }
-// convert baseRaw to month-year keyed object
-function normalizeBase(raw){
-  const out = {};
-  for(const k in raw){
-    const rows = raw[k];
-    for(const row of rows){
-      const date = row[0];
-      const mk = monthKeyFromDateString(date);
-      if(!out[mk]) out[mk] = [];
-      out[mk].push(row.slice()); // copy
-    }
-  }
-  return out;
+function normalizeBase(raw)
+{
+	// ✅ Rebuild complete month-wise data, keeping existing + newly added entries
+	const out = {};
+
+	for (const k in raw)
+	{
+		const rows = raw[k];
+		if (!Array.isArray(rows)) continue;
+
+		for (const row of rows)
+		{
+			const date = row[0];
+			if (!date) continue;
+
+			// ensure consistent month key (e.g., "Nov-2025")
+			const mk = monthKeyFromDateString(date);
+
+			// create month array if missing
+			if (!out[mk]) out[mk] = [];
+
+			// avoid duplicate same-date rows
+			const exists = out[mk].some(r => r[0] === date);
+			if (!exists) out[mk].push(row.slice());
+		}
+	}
+
+	// ✅ Always return a deep copy to avoid overwriting old data in memory
+	return JSON.parse(JSON.stringify(out));
 }
 const baseData = normalizeBase(baseRaw);
 // UI elements
